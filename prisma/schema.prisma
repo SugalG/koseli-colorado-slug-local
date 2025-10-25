@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // Helps handle Neon idle disconnections
+  directUrl = env("DATABASE_URL")
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  date        DateTime
+  description String
+  bannerUrl   String?
+  slug        String   @unique 
+  location    String?
+  isFeatured  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model News {
+  id        String   @id @default(cuid())
+  title     String
+  date      DateTime @default(now())
+  slug      String   @unique 
+  content   String
+  bannerUrl String?
+  createdAt DateTime @default(now())
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  imageUrl  String
+  caption   String?
+  createdAt DateTime @default(now())
+}
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model AboutUs {
+  id        String   @id @default(cuid())
+  content   String
+  updatedAt DateTime @updatedAt
+}
+
+model ContactInfo {
+  id           String   @id @default(cuid())
+  address      String?
+  phone        String?
+  email        String?
+  facebookUrl  String?
+  instagramUrl String?
+  youtubeUrl   String?
+  updatedAt    DateTime @updatedAt
+}
+
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}

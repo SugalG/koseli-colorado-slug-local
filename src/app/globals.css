@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === Global Reset & Typography === */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  @apply overflow-x-hidden;
+}
+
+body {
+  @apply bg-transparent text-white font-sans antialiased;
+  font-family: "Poppins", "Montserrat", "Inter", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* === Links === */
+a {
+  @apply transition-colors duration-200;
+}
+a:hover {
+  color: #E91E63; /* Brand accent */
+}
+
+/* === Nav Link Utility === */
+.nav-link {
+  @apply text-lg md:text-xl font-semibold tracking-wide transition-colors duration-200;
+}
+.nav-link:hover {
+  @apply text-brand-primary;
+}
+
+/* === Buttons === */
+.btn-primary {
+  @apply bg-brand-primary text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:brightness-110 hover:shadow-lg transition-all duration-300 ease-in-out;
+}
+.btn-outline {
+  @apply border border-brand-primary text-brand-primary font-semibold px-6 py-3 rounded-lg hover:bg-brand-primary hover:text-white transition-all duration-300 ease-in-out;
+}
+
+/* === Section Layout === */
+section {
+  @apply py-20;
+  scroll-margin-top: 100px;
+}
+@media (max-width: 640px) {
+  section {
+    @apply py-14;
+  }
+}
+
+/* === Typography === */
+h1, h2, h3, h4 {
+  letter-spacing: -0.02em;
+  @apply font-bold;
+}
+p {
+  line-height: 1.7;
+}
+
+/* === Subtle Fade-in Animation === */
+section {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
