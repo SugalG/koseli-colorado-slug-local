@@ -14,28 +14,24 @@ export default function AdminEventsPage() {
   const [editing, setEditing] = useState(null);
   const [message, setMessage] = useState("");
 
-  const base =
-    process.env.NEXT_PUBLIC_BASE_URL ||
-    (typeof window !== "undefined" ? "" : "http://localhost:3000");
-
   // 🟢 Load events
   async function loadEvents() {
     try {
-      const res = await fetch(`${base}/api/events`, { cache: "no-store" });
+      const res = await fetch("/api/events", { cache: "no-store" });
       if (!res.ok) throw new Error("Failed to load events");
       const data = await res.json();
       setEvents(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error("Error loading events:", err);
+      console.error("❌ Error loading events:", err);
       setMessage("⚠️ Failed to fetch events.");
     }
   }
 
   useEffect(() => {
     loadEvents();
-  }, [base]);
+  }, []);
 
-  // 🟡 Handle form submit (Create or Update)
+  // 🟡 Handle create/update
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -50,7 +46,7 @@ export default function AdminEventsPage() {
       if (form.image) formData.append("image", form.image);
 
       const method = editing ? "PUT" : "POST";
-      const url = editing ? `${base}/api/events?id=${editing}` : `${base}/api/events`;
+      const url = editing ? `/api/events?id=${editing}` : "/api/events";
 
       const res = await fetch(url, { method, body: formData });
 
@@ -70,7 +66,7 @@ export default function AdminEventsPage() {
         setMessage(`❌ ${err.error || "Failed to save event"}`);
       }
     } catch (err) {
-      console.error("Error saving event:", err);
+      console.error("❌ Save error:", err);
       setMessage("❌ Network or server error.");
     } finally {
       setLoading(false);
@@ -82,7 +78,7 @@ export default function AdminEventsPage() {
     if (!confirm("Are you sure you want to delete this event?")) return;
 
     try {
-      const res = await fetch(`${base}/api/events?id=${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/events?id=${id}`, { method: "DELETE" });
       if (res.ok) {
         setMessage("🗑️ Event deleted successfully.");
         loadEvents();
@@ -90,7 +86,7 @@ export default function AdminEventsPage() {
         setMessage("❌ Failed to delete event.");
       }
     } catch (err) {
-      console.error("Delete error:", err);
+      console.error("❌ Delete error:", err);
       setMessage("❌ Server error while deleting.");
     }
   }
@@ -111,7 +107,7 @@ export default function AdminEventsPage() {
   // ⭐ Toggle featured
   async function toggleFeatured(id, currentStatus) {
     try {
-      const res = await fetch(`${base}/api/events?id=${id}`, {
+      const res = await fetch(`/api/events?id=${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ isFeatured: !currentStatus }),
@@ -127,7 +123,7 @@ export default function AdminEventsPage() {
         setMessage("❌ Failed to toggle featured event.");
       }
     } catch (err) {
-      console.error("Feature toggle error:", err);
+      console.error("❌ Feature toggle error:", err);
       setMessage("❌ Server error while updating featured status.");
     }
   }
@@ -150,7 +146,7 @@ export default function AdminEventsPage() {
         </p>
       )}
 
-      {/* 🧾 Form Section */}
+      {/* 🧾 Form */}
       <form
         onSubmit={handleSubmit}
         className="space-y-4 mb-10 bg-gray-800 p-4 rounded-lg"
@@ -198,11 +194,7 @@ export default function AdminEventsPage() {
             disabled={loading}
             className="bg-brand-primary hover:bg-brand-primary/90 text-white px-4 py-2 rounded transition"
           >
-            {loading
-              ? "Saving..."
-              : editing
-              ? "Update Event"
-              : "Add Event"}
+            {loading ? "Saving..." : editing ? "Update Event" : "Add Event"}
           </button>
           {editing && (
             <button

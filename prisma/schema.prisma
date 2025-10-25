@@ -5,7 +5,6 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  // Helps handle Neon idle disconnections
   directUrl = env("DATABASE_URL")
 }
 
@@ -15,20 +14,20 @@ model Event {
   date        DateTime
   description String
   bannerUrl   String?
-  slug        String   @unique 
-  location    String?
-  isFeatured  Boolean  @default(false)
   createdAt   DateTime @default(now())
+  isFeatured  Boolean  @default(false)
+  location    String?
+  slug        String   @unique
 }
 
 model News {
   id        String   @id @default(cuid())
   title     String
-  date      DateTime @default(now())
-  slug      String   @unique 
   content   String
-  bannerUrl String?
   createdAt DateTime @default(now())
+  bannerUrl String?
+  date      DateTime @default(now())
+  slug      String   @unique
 }
 
 model GalleryImage {

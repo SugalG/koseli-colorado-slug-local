@@ -8,26 +8,22 @@ export default function AdminGalleryPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const base =
-    process.env.NEXT_PUBLIC_BASE_URL ||
-    (typeof window !== "undefined" ? "" : "http://localhost:3000");
-
   // 🟢 Load gallery images
   async function loadImages() {
     try {
-      const res = await fetch(`${base}/api/gallery`, { cache: "no-store" });
+      const res = await fetch("/api/gallery", { cache: "no-store" });
       if (!res.ok) throw new Error("Failed to load gallery images");
       const data = await res.json();
       setImages(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error("Error fetching gallery:", err);
+      console.error("❌ Error fetching gallery:", err);
       setMessage("⚠️ Could not fetch gallery images.");
     }
   }
 
   useEffect(() => {
     loadImages();
-  }, [base]);
+  }, []);
 
   // 🟡 Upload new image
   async function handleUpload(e) {
@@ -42,7 +38,7 @@ export default function AdminGalleryPage() {
       formData.append("caption", caption);
       formData.append("image", file);
 
-      const res = await fetch(`${base}/api/gallery`, {
+      const res = await fetch("/api/gallery", {
         method: "POST",
         body: formData,
       });
@@ -57,7 +53,7 @@ export default function AdminGalleryPage() {
         setMessage(`❌ ${err.error || "Failed to upload image."}`);
       }
     } catch (err) {
-      console.error("Upload error:", err);
+      console.error("❌ Upload error:", err);
       setMessage("❌ Network or server error while uploading.");
     } finally {
       setLoading(false);
@@ -69,9 +65,7 @@ export default function AdminGalleryPage() {
     if (!confirm("Are you sure you want to delete this image?")) return;
 
     try {
-      const res = await fetch(`${base}/api/gallery?id=${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(`/api/gallery?id=${id}`, { method: "DELETE" });
       if (res.ok) {
         setMessage("🗑️ Image deleted successfully.");
         await loadImages();
@@ -79,7 +73,7 @@ export default function AdminGalleryPage() {
         setMessage("❌ Failed to delete image.");
       }
     } catch (err) {
-      console.error("Delete error:", err);
+      console.error("❌ Delete error:", err);
       setMessage("❌ Server error while deleting image.");
     }
   }

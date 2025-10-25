@@ -6,33 +6,29 @@ export default function AdminAboutPage() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Base URL for both local + Vercel
-  const base =
-    process.env.NEXT_PUBLIC_BASE_URL ||
-    (typeof window !== "undefined" ? "" : "http://localhost:3000");
-
-  // 🟢 Fetch existing about info
+  // 🟢 Fetch About info
   useEffect(() => {
     async function loadAbout() {
       try {
-        const res = await fetch(`${base}/api/about`, { cache: "no-store" });
+        const res = await fetch("/api/about", { cache: "no-store" });
         if (!res.ok) throw new Error("Failed to fetch about info");
         const data = await res.json();
         setContent(data?.content || "");
       } catch (err) {
-        console.error("Failed to load about info:", err);
-        setMessage("⚠️ Failed to load content. Please refresh.");
+        console.error("⚠️ Failed to load about info:", err);
+        setMessage("⚠️ Unable to load About Us content. Please refresh.");
       }
     }
     loadAbout();
-  }, [base]);
+  }, []);
 
-  // 🟡 Save updated about info
+  // 🟡 Save About info
   const handleSave = async () => {
     try {
       setSaving(true);
       setMessage("");
-      const res = await fetch(`${base}/api/about`, {
+
+      const res = await fetch("/api/about", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content }),
@@ -45,7 +41,7 @@ export default function AdminAboutPage() {
         setMessage(`❌ ${err.error || "Failed to save"}`);
       }
     } catch (err) {
-      console.error("Save error:", err);
+      console.error("❌ Save error:", err);
       setMessage("❌ Network or server error while saving.");
     } finally {
       setSaving(false);

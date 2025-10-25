@@ -3,12 +3,17 @@ import NewsList from "@/components/ui/news/NewsList";
 export const dynamic = "force-dynamic";
 
 export default async function NewsPage() {
-  const base =
-    process.env.NEXT_PUBLIC_BASE_URL ||
-    (typeof window !== "undefined" ? "" : "http://localhost:3000");
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
-  const res = await fetch(`${base}/api/news`, { cache: "no-store" });
-  const news = await res.json();
+  let news = [];
+
+  try {
+    const res = await fetch(`${base}/api/news`, { cache: "no-store" });
+    if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
+    news = await res.json();
+  } catch (err) {
+    console.error("❌ Failed to load news:", err);
+  }
 
   return (
     <main className="bg-[#1b1a1f] text-white min-h-screen">
@@ -25,7 +30,11 @@ export default async function NewsPage() {
 
       {/* 🔹 News List */}
       <section className="container max-w-6xl mx-auto px-6 py-24 sm:py-20">
-        <NewsList news={news} />
+        {news.length > 0 ? (
+          <NewsList news={news} />
+        ) : (
+          <p className="text-center text-gray-400">No news available yet.</p>
+        )}
       </section>
     </main>
   );

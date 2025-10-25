@@ -4,10 +4,19 @@ export const metadata = {
     "Learn more about Koseli Colorado — promoting Nepali cinema, music, and culture across North America through films, concerts, and community events.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function AboutPage() {
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "";
-  const res = await fetch(`${base}/api/about`, { cache: "no-store" });
-  const data = await res.json();
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+  let data = {};
+  try {
+    const res = await fetch(`${base}/api/about`, { cache: "no-store" });
+    if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
+    data = await res.json();
+  } catch (err) {
+    console.error("❌ Failed to load about content:", err);
+  }
 
   const fallback = `
 Koseli Colorado LLC USA, located at 1255 Bistre Street, Longmont, CO 80501, is a Colorado-based entertainment company dedicated to promoting and celebrating the vibrant arts of Nepali cinema and music within the United States. Serving as a cultural bridge, we actively engage audiences with the richness of Nepali culture through the mediums of cinema and music.
@@ -74,8 +83,7 @@ As a cultural catalyst, we facilitate connections and promote unity within the N
             Our <span className="text-brand-primary">Community</span>
           </h2>
           <p className="max-w-3xl mx-auto text-gray-600 text-lg leading-relaxed mb-12">
-            From concerts and film screenings to charity events, Koseli Colorado
-            brings Nepali voices to the global stage through creativity and collaboration.
+            From concerts and film screenings to charity events, Koseli Colorado brings Nepali voices to the global stage through creativity and collaboration.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

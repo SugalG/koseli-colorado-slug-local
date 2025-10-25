@@ -15,28 +15,23 @@ export default function AdminContactPage() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
 
-  // ✅ Use correct base URL in both local and deployed environments
-  const base =
-    process.env.NEXT_PUBLIC_BASE_URL ||
-    (typeof window !== "undefined" ? "" : "http://localhost:3000");
-
   // 🟢 Load existing contact info
   useEffect(() => {
     async function loadContact() {
       try {
-        const res = await fetch(`${base}/api/contact`, { cache: "no-store" });
+        const res = await fetch("/api/contact", { cache: "no-store" });
         if (!res.ok) throw new Error("Failed to load contact info");
         const data = await res.json();
         if (data) setForm((prev) => ({ ...prev, ...data }));
       } catch (err) {
-        console.error("Failed to load contact info:", err);
+        console.error("⚠️ Failed to load contact info:", err);
         setMessage("⚠️ Unable to fetch contact details. Please refresh.");
       } finally {
         setLoading(false);
       }
     }
     loadContact();
-  }, [base]);
+  }, []);
 
   // 🟡 Handle input updates
   const handleChange = (e) =>
@@ -47,8 +42,9 @@ export default function AdminContactPage() {
     e.preventDefault();
     setSaving(true);
     setMessage("");
+
     try {
-      const res = await fetch(`${base}/api/contact`, {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -61,7 +57,7 @@ export default function AdminContactPage() {
         setMessage(`❌ ${err.error || "Failed to update contact info."}`);
       }
     } catch (err) {
-      console.error("Save error:", err);
+      console.error("❌ Save error:", err);
       setMessage("❌ Network or server error while saving.");
     } finally {
       setSaving(false);
@@ -85,7 +81,11 @@ export default function AdminContactPage() {
       {message && (
         <p
           className={`mb-4 text-sm font-medium ${
-            message.startsWith("✅") ? "text-green-400" : "text-red-400"
+            message.startsWith("✅")
+              ? "text-green-400"
+              : message.startsWith("⚠️")
+              ? "text-yellow-400"
+              : "text-red-400"
           }`}
         >
           {message}
