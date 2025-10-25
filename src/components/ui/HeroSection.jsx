@@ -17,7 +17,9 @@ export default function HeroSection({ featured = [] }) {
   if (!featured.length) {
     return (
       <section className="relative w-full h-screen flex items-center justify-center bg-black text-white">
-        <h1 className="text-4xl md:text-5xl font-bold">Welcome to Koseli Colorado</h1>
+        <h1 className="text-4xl md:text-5xl font-bold">
+          Welcome to Koseli Colorado
+        </h1>
       </section>
     );
   }
@@ -26,7 +28,7 @@ export default function HeroSection({ featured = [] }) {
 
   return (
     <section className="relative w-full h-screen flex items-center justify-center text-center overflow-hidden">
-      {/* Background Blurred Image */}
+      {/* 🔹 Background blurred image */}
       <div className="absolute inset-0">
         <AnimatePresence mode="wait">
           <motion.div
@@ -49,7 +51,7 @@ export default function HeroSection({ featured = [] }) {
         </AnimatePresence>
       </div>
 
-      {/* Foreground Main Image */}
+      {/* 🔹 Foreground main image */}
       <div className="absolute inset-0">
         <AnimatePresence mode="wait">
           <motion.div
@@ -73,23 +75,21 @@ export default function HeroSection({ featured = [] }) {
         </AnimatePresence>
       </div>
 
-      {/* Text Content */}
-      <div className="relative z-10 px-6 max-w-3xl text-white drop-shadow-lg">
-        <motion.h1
-          key={current.title}
+      {/* 🔹 Text content (smaller & cleaner) */}
+      <div className="relative z-10 px-4 sm:px-6 max-w-2xl text-white drop-shadow-lg text-center">
+        <motion.p
+          key={current.id}
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-5xl md:text-6xl font-bold mb-4 leading-tight"
+          className="text-base sm:text-lg md:text-xl text-gray-100 leading-relaxed"
         >
-          {current.title}
-        </motion.h1>
-        <p className="text-lg md:text-xl text-gray-100 mb-4">
           {current.description ||
             "Bringing the Nepali community together through music, culture, and celebration."}
-        </p>
+        </motion.p>
+
         {current.date && (
-          <p className="text-sm text-gray-300 mt-2">
+          <p className="text-xs sm:text-sm text-gray-300 mt-3">
             {new Date(current.date).toLocaleDateString(undefined, {
               year: "numeric",
               month: "short",
@@ -99,13 +99,13 @@ export default function HeroSection({ featured = [] }) {
         )}
       </div>
 
-      {/* Dots navigation */}
-      <div className="absolute bottom-8 flex gap-3 z-10">
+      {/* 🔹 Dots navigation */}
+      <div className="absolute bottom-6 sm:bottom-8 flex gap-2 sm:gap-3 z-10">
         {featured.map((_, i) => (
           <button
             key={i}
             onClick={() => setIndex(i)}
-            className={`w-3 h-3 rounded-full transition-all ${
+            className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all ${
               i === index ? "bg-brand-primary scale-110" : "bg-gray-400/50"
             }`}
           />
