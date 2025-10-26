@@ -10,9 +10,7 @@ export default function GalleryGrid({ images, openModal }) {
   const container = {
     hidden: {},
     show: {
-      transition: {
-        staggerChildren: 0.08,
-      },
+      transition: { staggerChildren: 0.08 },
     },
   };
 
@@ -22,40 +20,41 @@ export default function GalleryGrid({ images, openModal }) {
       opacity: 1,
       scale: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: 0.5, ease: "easeOut" },
     },
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-6 md:px-12 py-20">
+    <section className="max-w-7xl mx-auto px-6 md:px-12 py-16">
       <motion.div
         variants={container}
         initial="hidden"
         animate="show"
-        className="columns-1 sm:columns-2 lg:columns-3 gap-5 [column-fill:_balance] space-y-5"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
       >
         {images.map((img, index) => (
           <motion.figure
             key={img.id}
             variants={item}
-            className="relative group overflow-hidden rounded-xl shadow-lg break-inside-avoid cursor-pointer"
             onClick={() => openModal(index)}
+            className="relative group overflow-hidden rounded-xl bg-gray-900 cursor-pointer shadow-lg"
           >
-            <div className="relative w-full h-[350px]">
+            {/* Image */}
+            <div className="relative w-full h-[300px] md:h-[320px]">
               <Image
                 src={img.imageUrl}
                 alt={img.caption || "Gallery image"}
                 fill
-                loading="lazy" // ✅ Lazy loading enabled
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                onLoad={(e) => e.currentTarget.classList.remove("opacity-0")}
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
               />
             </div>
 
             {/* Overlay caption */}
-            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center text-center">
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
               {img.caption && (
-                <figcaption className="text-white text-sm md:text-base px-4 leading-relaxed">
+                <figcaption className="w-full bg-black/60 text-gray-100 text-sm text-center py-2 truncate">
                   {img.caption}
                 </figcaption>
               )}
