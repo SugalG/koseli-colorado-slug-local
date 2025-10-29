@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
         className={`${inter.variable} ${playfair.variable} antialiased bg-black text-white`}
       >
        
-        {/* ✅ Smooth fade transition for all pages */}
+        {/*  Smooth fade transition for all pages */}
         <PageTransition>{children}</PageTransition>
        
       </body>

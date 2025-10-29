@@ -5,7 +5,7 @@ import slugify from "@/lib/slugify"; // ✅ use existing helper
 
 export const dynamic = "force-dynamic";
 
-// 🟢 CREATE (POST)
+//  CREATE 
 export async function POST(req) {
   try {
     const formData = await req.formData();
@@ -20,12 +20,12 @@ export async function POST(req) {
       );
     }
 
-    // ✅ Generate slug
+    //  Generate slug
     const slug = slugify(title);
 
     let bannerUrl = null;
 
-    // ✅ Upload to Cloudinary if image is provided
+    //  Upload to Cloudinary if image is provided
     if (image && image.name) {
       const bytes = await image.arrayBuffer();
       const buffer = Buffer.from(bytes);
@@ -42,7 +42,7 @@ export async function POST(req) {
       });
     }
 
-    // ✅ Save to DB
+    //  Save to DB
     const created = await prisma.news.create({
       data: {
         title,
@@ -60,7 +60,7 @@ export async function POST(req) {
   }
 }
 
-// 🟡 READ (GET)
+//  READ 
 export async function GET() {
   try {
     const items = await prisma.news.findMany({
@@ -73,7 +73,7 @@ export async function GET() {
   }
 }
 
-// 🟠 UPDATE (PUT)
+//  UPDATE 
 export async function PUT(req) {
   try {
     const formData = await req.formData();
@@ -93,7 +93,7 @@ export async function PUT(req) {
 
     let bannerUrl = existing.bannerUrl;
 
-    // ✅ Re-upload if new image is provided
+    //  Re-upload if new image is provided
     if (image && image.name) {
       const bytes = await image.arrayBuffer();
       const buffer = Buffer.from(bytes);
@@ -110,7 +110,7 @@ export async function PUT(req) {
       });
     }
 
-    // ✅ Regenerate slug if title changes
+    // Regenerate slug if title changes
     const updated = await prisma.news.update({
       where: { id },
       data: {
@@ -128,7 +128,7 @@ export async function PUT(req) {
   }
 }
 
-// 🔴 DELETE
+//  DELETE
 export async function DELETE(req) {
   try {
     const { id } = await req.json();

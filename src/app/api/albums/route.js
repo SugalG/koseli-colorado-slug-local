@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// 🟢 GET all albums (with their images)
+//  GET all albums 
 export async function GET() {
   try {
     const albums = await prisma.album.findMany({
@@ -20,7 +20,7 @@ export async function GET() {
   }
 }
 
-// 🟡 POST new album
+//  new album
 export async function POST(req) {
   try {
     const { name, coverUrl } = await req.json();
@@ -44,7 +44,7 @@ export async function POST(req) {
   }
 }
 
-// 🟠 PATCH album cover (set thumbnail)
+//   (set thumbnail)
 export async function PATCH(req) {
   try {
     const { searchParams } = new URL(req.url);
@@ -73,7 +73,7 @@ export async function PATCH(req) {
   }
 }
 
-// 🔴 DELETE album (and its images)
+//  DELETE album 
 export async function DELETE(req) {
   try {
     const { searchParams } = new URL(req.url);
@@ -81,10 +81,10 @@ export async function DELETE(req) {
     if (!id)
       return NextResponse.json({ error: "Album ID required" }, { status: 400 });
 
-    // ✅ Delete all related images first (to avoid FK constraint)
+    // Delete all related images first 
     await prisma.galleryImage.deleteMany({ where: { albumId: id } });
 
-    // ✅ Then delete the album itself
+    //  Then delete the album itself
     await prisma.album.delete({ where: { id } });
 
     return NextResponse.json({ ok: true, message: "Album deleted" });

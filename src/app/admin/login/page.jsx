@@ -20,7 +20,7 @@ export default function AdminLoginPage() {
       });
 
       if (res.ok) {
-        // ✅ redirect handled via middleware (cookie gets set)
+        // redirect handled via middleware (cookie gets set)
         window.location.href = "/admin/dashboard";
       } else {
         const data = await res.json();

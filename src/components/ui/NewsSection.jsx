@@ -6,9 +6,9 @@ export default function NewsSection({ news = [] }) {
   const hasNews = Array.isArray(news) && news.length > 0;
 
   return (
-    <section className="relative bg-white py-24 px-6 md:px-12 text-gray-900">
+    <section className="relative bg-gray-50 py-12 md:py-16 px-6 md:px-10 text-gray-900">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
           Latest <span className="text-brand-primary">News</span>
         </h2>
 

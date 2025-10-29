@@ -33,20 +33,20 @@ export default function Navbar() {
       }`}
     >
       <div className="container mx-auto relative flex items-center justify-between px-6">
-        {/* 🔹 Logo */}
+        {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image
             src="/image 4.png"
             alt="Koseli Colorado Logo"
-            width={scrolled ? 130 : 180}
-            height={scrolled ? 130 : 180}
-            className="object-contain transition-all duration-700 ease-in-out"
+            width={scrolled ? 130 : 160}
+            height={scrolled ? 130 : 160}
+            className="object-contain transition-all duration-700 ease-in-out max-w-[160px] sm:max-w-[180px]"
             priority
           />
         </Link>
 
-        {/* 🔹 Centered Desktop Menu */}
-        <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center space-x-10">
+        {/* Centered Desktop Menu (Visible from lg and up) */}
+        <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center space-x-8 xl:space-x-10">
           {links.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -65,20 +65,36 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* 🔹 Mobile Menu Toggle */}
+        {/* Mobile & Tablet Menu Toggle */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden flex flex-col items-center justify-center space-y-1 focus:outline-none"
+          className="lg:hidden flex flex-col items-center justify-center space-y-1 focus:outline-none"
         >
-          <span className="block w-6 h-0.5 bg-white transition-all"></span>
-          <span className="block w-6 h-0.5 bg-white transition-all"></span>
-          <span className="block w-6 h-0.5 bg-white transition-all"></span>
+          <span
+            className={`block w-6 h-0.5 bg-white transition-transform duration-300 ${
+              isOpen ? "rotate-45 translate-y-[7px]" : ""
+            }`}
+          ></span>
+          <span
+            className={`block w-6 h-0.5 bg-white transition-opacity duration-300 ${
+              isOpen ? "opacity-0" : "opacity-100"
+            }`}
+          ></span>
+          <span
+            className={`block w-6 h-0.5 bg-white transition-transform duration-300 ${
+              isOpen ? "-rotate-45 -translate-y-[7px]" : ""
+            }`}
+          ></span>
         </button>
       </div>
 
-      {/* 🔹 Mobile Menu Drawer */}
-      {isOpen && (
-        <div className="md:hidden bg-black/95 border-t border-gray-800 backdrop-blur-sm transition-all duration-500">
+      {/* Mobile & Tablet Menu Drawer */}
+      <div
+        className={`lg:hidden overflow-hidden transition-[max-height] duration-500 ease-in-out ${
+          isOpen ? "max-h-96" : "max-h-0"
+        }`}
+      >
+        <div className="bg-black/95 border-t border-gray-800 backdrop-blur-sm">
           <div className="flex flex-col items-center space-y-4 py-6">
             {links.map((link) => {
               const isActive = pathname === link.href;
@@ -99,7 +115,7 @@ export default function Navbar() {
             })}
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 }

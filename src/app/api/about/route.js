@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
-// 🟢 Disable caching in Vercel for dynamic fetch
+//  Disable caching in Vercel for dynamic fetch
 export const dynamic = "force-dynamic";
 
-// ✅ GET — fetch about content
+//  GET — fetch about content
 export async function GET() {
   try {
     const about = await prisma.aboutUs.findFirst();
@@ -15,7 +15,7 @@ export async function GET() {
   }
 }
 
-// ✅ POST — create or update about content
+//  POST — create or update about content
 export async function POST(req) {
   try {
     const { content } = await req.json();

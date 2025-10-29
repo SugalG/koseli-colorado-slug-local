@@ -31,12 +31,12 @@ model News {
 }
 
 model Album {
-  id        String          @id @default(cuid())
+  id        String         @id @default(cuid())
   name      String
-  coverUrl  String?          // Optional cover image for album
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
-  images    GalleryImage[]   // One album has many images
+  coverUrl  String?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  images    GalleryImage[]
 }
 
 model GalleryImage {
@@ -44,8 +44,6 @@ model GalleryImage {
   imageUrl  String
   caption   String?
   createdAt DateTime @default(now())
-
-  
   albumId   String?
   album     Album?   @relation(fields: [albumId], references: [id])
 }

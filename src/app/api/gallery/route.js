@@ -4,7 +4,7 @@ import cloudinary from "@/lib/cloudinary";
 
 export const dynamic = "force-dynamic";
 
-// ✅ GET — fetch all images or filter by album
+//  fetch all images or filter by album
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
@@ -26,13 +26,13 @@ export async function GET(req) {
   }
 }
 
-// ✅ POST — upload image (with optional albumId)
+// upload image (with optional albumId)
 export async function POST(req) {
   try {
     const formData = await req.formData();
     const caption = formData.get("caption");
     const image = formData.get("image");
-    const albumId = formData.get("albumId"); // 👈 optional
+    const albumId = formData.get("albumId"); 
 
     if (!image) {
       return NextResponse.json({ error: "Image file is required" }, { status: 400 });
@@ -52,7 +52,7 @@ export async function POST(req) {
       data: {
         caption,
         imageUrl: upload.secure_url,
-        albumId: albumId || null, // 👈 safely link to album if provided
+        albumId: albumId || null, 
       },
     });
 
@@ -63,7 +63,7 @@ export async function POST(req) {
   }
 }
 
-// ✅ DELETE — unchanged
+//  DELETE 
 export async function DELETE(req) {
   try {
     const { searchParams } = new URL(req.url);

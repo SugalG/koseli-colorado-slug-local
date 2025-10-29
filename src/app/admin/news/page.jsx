@@ -14,7 +14,7 @@ export default function AdminNewsPage() {
   const [editingId, setEditingId] = useState(null);
   const [message, setMessage] = useState("");
 
-  // 🟢 Load all news
+  //  Load all news
   async function loadNews() {
     try {
       const res = await fetch("/api/news", { cache: "no-store" });
@@ -31,7 +31,7 @@ export default function AdminNewsPage() {
     loadNews();
   }, []);
 
-  // 🟢 Handle add/edit submit
+  //  Handle add/edit submit
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -61,7 +61,7 @@ export default function AdminNewsPage() {
     }
   }
 
-  // 🟠 Handle delete
+  //  Handle delete
   async function handleDelete(id) {
     if (!confirm("Are you sure you want to delete this news item?")) return;
 
@@ -81,7 +81,7 @@ export default function AdminNewsPage() {
     }
   }
 
-  // 🟣 Start editing an item
+  //  editing an item
   function startEdit(item) {
     setEditingId(item.id);
     setForm({
@@ -102,7 +102,7 @@ export default function AdminNewsPage() {
 
       {message && <p className="mb-4 text-sm text-gray-300">{message}</p>}
 
-      {/* 🧾 Add/Edit Form */}
+      {/*  Add/Edit Form */}
       <form
         onSubmit={handleSubmit}
         className="space-y-4 bg-gray-800 p-6 rounded-lg mb-10 shadow-lg"
@@ -160,7 +160,7 @@ export default function AdminNewsPage() {
         </div>
       </form>
 
-      {/* 📰 News List */}
+      {/*  News List */}
       <h2 className="text-2xl font-semibold mb-4">All News</h2>
       <div className="space-y-6">
         {news.length > 0 ? (

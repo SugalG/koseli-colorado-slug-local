@@ -18,20 +18,29 @@ export default async function HomePage() {
       fetch(`${base}/api/news`, { cache: "no-store" }),
     ]);
 
+    // ✅ Handle both { events: [...] } and plain array [] responses
     if (eventsRes.ok) {
       const data = await eventsRes.json();
-      allEvents = Array.isArray(data) ? data : [];
+      allEvents = Array.isArray(data?.events)
+        ? data.events
+        : Array.isArray(data)
+          ? data
+          : [];
     }
 
     if (newsRes.ok) {
       const data = await newsRes.json();
-      allNews = Array.isArray(data) ? data : [];
+      allNews = Array.isArray(data?.news)
+        ? data.news
+        : Array.isArray(data)
+          ? data
+          : [];
     }
   } catch (err) {
     console.error("HomePage fetch error:", err);
   }
 
-  // fallback for demo
+  // ✅ Fallback for demo
   if (allEvents.length === 0) {
     allEvents = [
       {
@@ -41,7 +50,7 @@ export default async function HomePage() {
           "Experience the rhythm and energy of Nepali music live in Colorado!",
         date: new Date().toISOString(),
         location: "Denver, CO",
-        bannerUrl: "/demo/hero-fallback.jpg",
+        bannerUrl: "/placeholder.jpg", // ✅ replaced missing image
         isFeatured: true,
       },
     ];
@@ -54,38 +63,40 @@ export default async function HomePage() {
 
   return (
     <main className="min-h-screen bg-transparent text-white">
-      {/* 🔹 Hero Section */}
+      {/* Hero Section */}
       <HeroSection featured={featured} />
 
-      <div className="h-8 bg-gradient-to-b from-transparent to-gray-50" />
+      {/* Subtle divider */}
+      <div className="h-2 sm:h-3 lg:h-4 bg-gradient-to-b from-transparent to-gray-50" />
 
-      {/* 🔹 Upcoming Events */}
-      <section className="relative z-10 bg-gray-50 text-gray-900">
+      {/* Upcoming Events */}
+      <section className="relative z-10 bg-gray-50 text-gray-900 py-8 md:py-10 lg:py-12">
         <UpcomingEventsSection upcoming={upcoming} />
-      </section>
 
-      <div className="h-8 bg-gradient-to-b from-gray-50 to-gray-100" />
+        
+        <div className="h-8" />
 
-      {/* 🔹 Past Events */}
-      <section className="relative z-10 bg-gray-100 text-gray-900">
         <PastEventSection past={past} />
       </section>
 
-      <div className="h-8 bg-gradient-to-b from-gray-100 to-white" />
+      <div className="h-2 sm:h-3 lg:h-4 bg-gradient-to-b from-gray-100 to-white" />
 
-      {/* 🔹 What We Offer */}
-      <WhatWeOfferSection />
+      {/* What We Offer */}
+      <section className="bg-white text-gray-900 py-8 md:py-10 lg:py-12">
+        <WhatWeOfferSection />
+      </section>
 
-      {/* 🔹 News Section */}
-      
-      <NewsSection news={allNews} />
+      {/* News Section */}
+      <section className="bg-gray-50 text-gray-900 py-8 md:py-10 lg:py-12">
+        <NewsSection news={allNews} />
+      </section>
 
-      {/* 🔹 Newsletter */}
-      <section className="bg-brand-primary/95 text-center py-20 text-white">
-        <h3 className="text-3xl font-bold mb-6">
+      {/* Newsletter */}
+      <section className="bg-brand-primary/95 text-center py-14 md:py-16 text-white">
+        <h3 className="text-3xl font-bold mb-5">
           Stay Connected with Koseli Colorado
         </h3>
-        <p className="text-white/80 mb-8">
+        <p className="text-white/80 mb-6">
           Get updates on upcoming concerts, cultural nights, and community
           events.
         </p>

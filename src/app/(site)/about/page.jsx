@@ -32,7 +32,7 @@ As a cultural catalyst, we facilitate connections and promote unity within the N
 
   return (
     <main className="bg-gray-50 text-gray-800">
-      {/* 🔹 Header */}
+      {/* Header */}
       <section className="text-center py-20 bg-white border-b border-gray-200">
         <h1 className="text-5xl md:text-6xl font-bold mb-4 text-brand-primary">
           About <span className="text-gray-900">Koseli Colorado</span>
@@ -42,7 +42,7 @@ As a cultural catalyst, we facilitate connections and promote unity within the N
         </p>
       </section>
 
-      {/* 🔹 Detailed Company Description */}
+      {/* Company Description */}
       <section className="max-w-5xl mx-auto px-6 py-20 text-gray-700 leading-relaxed whitespace-pre-line">
         <article className="space-y-8 text-lg">
           {content.split("\n\n").map((para, i) => (
@@ -53,7 +53,7 @@ As a cultural catalyst, we facilitate connections and promote unity within the N
         </article>
       </section>
 
-      {/* 🔹 Mission & Vision */}
+      {/*  Mission & Vision */}
       <section className="bg-white py-20 px-6 md:px-12 text-center border-t border-gray-100">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
           <div className="p-8 bg-gray-100 rounded-2xl shadow-sm hover:shadow-md transition">
@@ -76,7 +76,7 @@ As a cultural catalyst, we facilitate connections and promote unity within the N
         </div>
       </section>
 
-      {/* 🔹 Community Highlights */}
+      {/*  Community Highlights */}
       <section className="py-24 px-6 md:px-12 text-center bg-gradient-to-b from-white to-gray-100">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold mb-8">
@@ -85,7 +85,7 @@ As a cultural catalyst, we facilitate connections and promote unity within the N
           <p className="max-w-3xl mx-auto text-gray-600 text-lg leading-relaxed mb-12">
             From concerts and film screenings to charity events, Koseli Colorado brings Nepali voices to the global stage through creativity and collaboration.
           </p>
-
+            
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {

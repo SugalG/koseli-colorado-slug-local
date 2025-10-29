@@ -25,9 +25,9 @@ const offers = [
 
 export default function WhatWeOfferSection() {
   return (
-    <section className="relative bg-gray-50 py-28 px-6 md:px-12 text-gray-900">
-      <div className="max-w-6xl mx-auto text-center mb-16">
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">
+    <section className="relative bg-white py-16 md:py-20 px-6 md:px-10 text-gray-900">
+      <div className="max-w-6xl mx-auto text-center mb-10">
+        <h2 className="text-3xl md:text-4xl font-bold mb-3">
           What <span className="text-brand-primary">We Offer</span>
         </h2>
         <div className="w-24 h-[3px] bg-brand-primary mx-auto mb-6"></div>

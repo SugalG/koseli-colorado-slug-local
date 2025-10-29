@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic"; // ✅ Disable caching for contact info
 
-// 🟢 GET Contact Info
+//Contact Info
 export async function GET() {
   try {
     const info = await prisma.contactInfo.findFirst();
@@ -14,7 +14,7 @@ export async function GET() {
   }
 }
 
-// 🟡 POST (Create or Update Contact Info)
+//  Create or Update Contact Info
 export async function POST(req) {
   try {
     const { address, phone, email, facebookUrl, instagramUrl, youtubeUrl } =

@@ -4,12 +4,12 @@ import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-// 🧠 Helper to fetch single news item
+//  Helper to fetch single news item
 async function getNews(slug) {
   return await prisma.news.findUnique({ where: { slug } });
 }
 
-// 🧠 SEO Metadata (handles Next.js 15 async params)
+//  SEO Metadata (handles Next.js 15 async params)
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const news = await getNews(slug);
@@ -26,9 +26,9 @@ export async function generateMetadata({ params }) {
   };
 }
 
-// 🟢 Main component
+//  Main component
 export default async function NewsDetailPage({ params }) {
-  const { slug } = await params; // ✅ required in Next.js 15+
+  const { slug } = await params; 
   const news = await getNews(slug);
   if (!news) return notFound();
 
@@ -40,7 +40,7 @@ export default async function NewsDetailPage({ params }) {
 
   return (
     <article className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-gray-950 text-white">
-      {/* 🖼️ Hero Banner */}
+       {/* Hero Banner */}
       {news.bannerUrl && (
         <section className="relative w-full bg-black flex justify-center overflow-hidden">
           <Image
@@ -54,7 +54,7 @@ export default async function NewsDetailPage({ params }) {
         </section>
       )}
 
-      {/* 📰 Content Section */}
+      {/*  Content Section */}
       <section className="max-w-4xl mx-auto px-6 py-16 text-gray-200">
         <div className="text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">

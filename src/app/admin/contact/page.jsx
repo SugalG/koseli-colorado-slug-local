@@ -15,7 +15,7 @@ export default function AdminContactPage() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
 
-  // 🟢 Load existing contact info
+  //  Load existing contact info
   useEffect(() => {
     async function loadContact() {
       try {
@@ -33,11 +33,11 @@ export default function AdminContactPage() {
     loadContact();
   }, []);
 
-  // 🟡 Handle input updates
+  //  Handle input updates
   const handleChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-  // 🟠 Submit handler
+  //  Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
@@ -71,7 +71,7 @@ export default function AdminContactPage() {
       </main>
     );
 
-  // ✅ Render form
+  //  Render form
   return (
     <section className="max-w-3xl mx-auto p-6 text-white">
       <h1 className="text-3xl font-bold text-brand-primary mb-6">

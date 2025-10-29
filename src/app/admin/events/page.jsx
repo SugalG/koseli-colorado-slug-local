@@ -14,13 +14,23 @@ export default function AdminEventsPage() {
   const [editing, setEditing] = useState(null);
   const [message, setMessage] = useState("");
 
-  // 🟢 Load events
+  // Load events
   async function loadEvents() {
     try {
-      const res = await fetch("/api/events", { cache: "no-store" });
+      const base =
+        process.env.NEXT_PUBLIC_BASE_URL ||
+        (typeof window !== "undefined" ? "" : "http://localhost:3000");
+
+      const res = await fetch(`${base}/api/events`, { cache: "no-store" });
       if (!res.ok) throw new Error("Failed to load events");
+
       const data = await res.json();
-      setEvents(Array.isArray(data) ? data : []);
+
+      // ✅ Handle both raw array and object with { events: [...] }
+      const eventList = Array.isArray(data) ? data : data.events || [];
+      setEvents(eventList);
+
+      console.log("Fetched events:", eventList); // optional debug
     } catch (err) {
       console.error("❌ Error loading events:", err);
       setMessage("⚠️ Failed to fetch events.");
@@ -31,7 +41,7 @@ export default function AdminEventsPage() {
     loadEvents();
   }, []);
 
-  // 🟡 Handle create/update
+  // Handle create/update
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -73,7 +83,7 @@ export default function AdminEventsPage() {
     }
   }
 
-  // 🔴 Delete event
+  // Delete event
   async function handleDelete(id) {
     if (!confirm("Are you sure you want to delete this event?")) return;
 
@@ -91,7 +101,7 @@ export default function AdminEventsPage() {
     }
   }
 
-  // ✏️ Edit existing event
+  // Edit existing event
   function handleEdit(event) {
     setEditing(event.id);
     setForm({
@@ -104,7 +114,7 @@ export default function AdminEventsPage() {
     setMessage("");
   }
 
-  // ⭐ Toggle featured
+  // Toggle featured
   async function toggleFeatured(id, currentStatus) {
     try {
       const res = await fetch(`/api/events?id=${id}`, {
@@ -134,19 +144,18 @@ export default function AdminEventsPage() {
 
       {message && (
         <p
-          className={`mb-4 text-sm font-medium ${
-            message.startsWith("✅") || message.startsWith("🌟")
+          className={`mb-4 text-sm font-medium ${message.startsWith("✅") || message.startsWith("🌟")
               ? "text-green-400"
               : message.startsWith("⚠️")
-              ? "text-yellow-400"
-              : "text-red-400"
-          }`}
+                ? "text-yellow-400"
+                : "text-red-400"
+            }`}
         >
           {message}
         </p>
       )}
 
-      {/* 🧾 Form */}
+      {/* Form */}
       <form
         onSubmit={handleSubmit}
         className="space-y-4 mb-10 bg-gray-800 p-4 rounded-lg"
@@ -218,7 +227,7 @@ export default function AdminEventsPage() {
         </div>
       </form>
 
-      {/* 📋 Events List */}
+      {/* Events List */}
       <div className="space-y-6">
         {events.map((e) => (
           <div
@@ -256,11 +265,10 @@ export default function AdminEventsPage() {
               </button>
               <button
                 onClick={() => toggleFeatured(e.id, e.isFeatured)}
-                className={`px-3 py-1 rounded transition ${
-                  e.isFeatured
+                className={`px-3 py-1 rounded transition ${e.isFeatured
                     ? "bg-green-700 hover:bg-green-800"
                     : "bg-gray-600 hover:bg-gray-700"
-                }`}
+                  }`}
               >
                 {e.isFeatured ? "★ Featured" : "☆ Make Featured"}
               </button>

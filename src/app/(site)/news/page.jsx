@@ -17,7 +17,7 @@ export default async function NewsPage() {
 
   return (
     <main className="bg-[#1b1a1f] text-white min-h-screen">
-      {/* 🔹 Header Section */}
+      {/*  Header Section */}
       <section className="py-24 sm:py-20 text-center relative bg-gradient-to-b from-[#ff4e50] via-[#2c2b30] to-[#1b1a1f]">
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white drop-shadow-lg">
           Latest News
@@ -28,7 +28,7 @@ export default async function NewsPage() {
         </p>
       </section>
 
-      {/* 🔹 News List */}
+      {/*  News List */}
       <section className="container max-w-6xl mx-auto px-6 py-24 sm:py-20">
         {news.length > 0 ? (
           <NewsList news={news} />

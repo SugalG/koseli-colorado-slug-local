@@ -6,7 +6,7 @@ export default function AdminAboutPage() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
 
-  // 🟢 Fetch About info
+  //  Fetch About info
   useEffect(() => {
     async function loadAbout() {
       try {
@@ -22,7 +22,7 @@ export default function AdminAboutPage() {
     loadAbout();
   }, []);
 
-  // 🟡 Save About info
+  //  Save About info
   const handleSave = async () => {
     try {
       setSaving(true);

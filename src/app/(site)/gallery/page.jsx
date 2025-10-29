@@ -12,7 +12,7 @@ export default function GalleryPage() {
   const [currentIndex, setCurrentIndex] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // 🟢 Load albums on mount
+  // Load albums on mount
   useEffect(() => {
     const base =
       process.env.NEXT_PUBLIC_BASE_URL ||
@@ -33,7 +33,7 @@ export default function GalleryPage() {
     fetchAlbums();
   }, []);
 
-  // 🟡 Load images for selected album
+  //  Load images for selected album
   async function openAlbum(album) {
     setLoading(true);
     setCurrentAlbum(album);
@@ -51,7 +51,7 @@ export default function GalleryPage() {
     }
   }
 
-  // 🧭 Go back to album view
+  //  Go back to album view
   const backToAlbums = () => {
     setCurrentAlbum(null);
     setImages([]);
@@ -62,7 +62,7 @@ export default function GalleryPage() {
   const prevImage = () => setCurrentIndex((i) => (i === 0 ? images.length - 1 : i - 1));
   const nextImage = () => setCurrentIndex((i) => (i === images.length - 1 ? 0 : i + 1));
 
-  // 🧱 Rendering
+  //  Rendering
   return (
     <main className="bg-[#1b1a1f] text-white min-h-screen transition-all duration-700 ease-in-out">
       <GalleryHeader />
@@ -93,7 +93,7 @@ export default function GalleryPage() {
           </div>
         )
       ) : (
-        // 🖼️ Album Detail Grid
+        //  Album Detail Grid
         <div className="max-w-6xl mx-auto p-6">
           <button
             onClick={backToAlbums}

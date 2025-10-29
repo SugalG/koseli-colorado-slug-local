@@ -5,7 +5,7 @@ import slugify from "@/lib/slugify";
 
 export const dynamic = "force-dynamic";
 
-// 🟢 CREATE (POST)
+//  CREATE 
 export async function POST(req) {
   try {
     const formData = await req.formData();
@@ -43,32 +43,48 @@ export async function POST(req) {
   }
 }
 
-// 🟡 READ (GET)
+//  READ 
+
+// inside src/app/api/events/route.js
+
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
     const featured = searchParams.get("featured") === "true";
     const upcoming = searchParams.get("upcoming") === "true";
-    const limit = parseInt(searchParams.get("limit") || "0", 10);
+    const skip = parseInt(searchParams.get("skip") || "0", 10);
+    const take = parseInt(searchParams.get("take") || "0", 10);
 
     const where = {};
     if (featured) where.isFeatured = true;
     if (upcoming) where.date = { gte: new Date() };
 
+    // Fetch total count for hasMore logic
+    const total = await prisma.event.count({ where });
+
     const events = await prisma.event.findMany({
       where,
       orderBy: { date: upcoming ? "asc" : "desc" },
-      take: limit > 0 ? limit : undefined,
+      skip: skip > 0 ? skip : undefined,
+      take: take > 0 ? take : undefined,
     });
 
-    return NextResponse.json(events);
+    const hasMore = skip + take < total;
+
+    return NextResponse.json({ events, hasMore });
   } catch (err) {
     console.error("GET /api/events error:", err);
-    return NextResponse.json({ events: [], error: "Failed to fetch events" }, { status: 500 });
+    return NextResponse.json(
+      { events: [], hasMore: false, error: "Failed to fetch events" },
+      { status: 500 }
+    );
   }
 }
 
-// 🟠 UPDATE (PUT)
+
+
+
+//  UPDATE 
 export async function PUT(req) {
   try {
     const { searchParams } = new URL(req.url);
@@ -77,11 +93,11 @@ export async function PUT(req) {
 
     const contentType = req.headers.get("content-type") || "";
 
-    // ✅ Toggle featured (JSON)
+    //  Toggle featured 
     if (contentType.includes("application/json")) {
       const { isFeatured } = await req.json();
 
-      // 🟢 Allow multiple featured events
+      //  Allow multiple featured events
       const updated = await prisma.event.update({
         where: { id },
         data: { isFeatured },
@@ -90,7 +106,7 @@ export async function PUT(req) {
       return NextResponse.json(updated);
     }
 
-    // ✅ Full update (FormData)
+    //  Full update (FormData)
     const formData = await req.formData();
     const title = formData.get("title");
     const date = formData.get("date");
@@ -140,7 +156,7 @@ export async function PUT(req) {
   }
 }
 
-// 🔴 DELETE
+//  DELETE
 export async function DELETE(req) {
   try {
     const { searchParams } = new URL(req.url);

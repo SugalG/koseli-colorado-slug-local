@@ -22,14 +22,14 @@ export async function POST(req) {
     if (!ok)
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
 
-    // ✅ Sign JWT (using your .env secret)
+    //  Sign JWT (using your .env secret)
     const token = await new SignJWT({ sub: user.id, username: user.username })
       .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()
       .setExpirationTime("1d")
       .sign(new TextEncoder().encode(process.env.JWT_SECRET));
 
-    // ✅ Set secure cookie (keep maxAge synced with JWT expiration)
+    //  Set secure cookie (keep maxAge synced with JWT expiration)
     const res = NextResponse.json({ ok: true, username: user.username });
     res.cookies.set("kc_admin", token, {
       httpOnly: true,

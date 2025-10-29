@@ -4,14 +4,14 @@ import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
-// 🧩 Helper
+//  Helper
 async function getEvent(slug) {
   return await prisma.event.findUnique({
     where: { slug },
   });
 }
 
-// 🧠 SEO Metadata
+// SEO metadata
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const event = await getEvent(slug);
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }) {
   };
 }
 
-// 🟢 Main Component
+//  Main Component
 export default async function EventDetailPage({ params }) {
   const { slug } = await params;
   const event = await getEvent(slug);
